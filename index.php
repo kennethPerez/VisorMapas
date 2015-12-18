@@ -7,11 +7,8 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>Visor de mapas</title>
     </head>
     <body>
-        <?php
-        phpinfo();
-        ?>
     </body>
 </html>
