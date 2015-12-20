@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
+<html ng-app="app">
     <head>
         <meta charset="UTF-8">
         <title>Visor de mapas</title>
         <link rel="stylesheet" href="Bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/style.css">
     </head>
-    <body ng-app="app">
-        <div ng-view></div>
+    <body ng-controller="visorController">
+        <div id="pcontainer1" class="pancontainer">
+            <img src="http://static1.gamespot.com/uploads/original/1535/15354745/2825289-6003798038-23954.jpg" width="1280" height="782" />
+	</div>
+	<br>
+	<button onClick="panimage1.zoom('+1')">zoom In</button>
+	<button onClick="panimage1.zoom('-1')">zoom out</button>
+	<button onClick="panimage1.zoom(1)">reset</button>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="./JS/jquery.kinetic.min.js" type="text/javascript"></script>
+	<script src="./JS/jquery.mousewheel.min.js"></script>
+	<script src="./JS/imagepanner.js"></script>
+	<script src="./JS/script.js"></script>
         
         <script src="AngularJS/angular.min.js"> </script>
         <script src="AngularJS/angular-route.min.js"></script>
