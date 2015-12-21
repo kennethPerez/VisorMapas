@@ -13,6 +13,12 @@ angular
         return info;
     })
 
-    .controller("visorController", function($scope, $http, $location, Data) {
-       $scope.e = "Hola";
+    .controller("visorController", function($scope, $http, $location, Data) {        
+        $scope.imageSize = '640x480';
+        $scope.image = './PHP/imagen.php?x=640&y=480';
+        $scope.changeSize = changeSize;
+
+        function changeSize() {
+            $scope.image = './PHP/imagen.php?' + $scope.imageSize;
+        }
     });

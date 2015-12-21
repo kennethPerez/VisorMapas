@@ -8,13 +8,19 @@
     </head>
     <body ng-controller="visorController">
         <div id="pcontainer1" class="pancontainer">
-            <img src="http://static1.gamespot.com/uploads/original/1535/15354745/2825289-6003798038-23954.jpg" width="1280" height="782" />
+            <img src="{{image}}" width="1280" height="782" />
 	</div>
 	<br>
 	<button onClick="panimage1.zoom('+1')">zoom In</button>
 	<button onClick="panimage1.zoom('-1')">zoom out</button>
 	<button onClick="panimage1.zoom(1)">reset</button>
-
+        
+        <select id="mySelect" ng-model="imageSize" ng-change="changeSize()">
+            <option value="x=640&y=480">640x480</option>
+            <option value="x=760&y=600">760x600</option>
+        </select>
+        
+        
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="./JS/jquery.kinetic.min.js" type="text/javascript"></script>
 	<script src="./JS/jquery.mousewheel.min.js"></script>
