@@ -4,9 +4,16 @@
     
     $x = $_REQUEST['x'];
     $y = $_REQUEST['y'];
+    $action = $_REQUEST['action'];
     
     $graficos = new graficos();
-    $img = $graficos->crearImagen($x, $y);
+    
+    if($action == 'Caminos') {
+        $img = $graficos->crearMapaCaminos($x, $y);
+    }
+    else if($action == 'Hospitales') {
+        $img = $graficos->crearMapaHospitales($x, $y);
+    }
     
     imagepng($img);
     imagedestroy($img);
