@@ -14,6 +14,12 @@
     else if($action == 'Hospitales') {
         $img = $graficos->crearMapaHospitales($x, $y);
     }
+    else if($action == 'Rios') {
+        $img = $graficos->crearMapaRios($x, $y);
+    }
+    else if($action == 'Escuelas') {
+        $img = $graficos->crearMapaEscuelas($x, $y);
+    }
     
     imagepng($img);
     imagedestroy($img);

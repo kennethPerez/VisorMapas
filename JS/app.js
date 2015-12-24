@@ -14,20 +14,37 @@ angular
     })
 
     .controller("visorController", function($scope, $http, $location, Data) {        
-        $scope.imageSize = '640x480';
-        $scope.image = '';
+        $scope.imageSize = '';
         $scope.mapas = [
             {
                 id: '1',
-                state: true,
-                text: 'Caminos',
+                state: false,
+                text: 'Rios',
+                color: '30, 115, 190',
                 size: '',
                 image: ''
             },
             {
                 id: '2',
-                state: true,
+                state: false,
+                text: 'Caminos',
+                color: '0, 178, 48',
+                size: '',
+                image: ''
+            },
+            {
+                id: '3',
+                state: false,
+                text: 'Escuelas',
+                color: '242, 117, 7',
+                size: '',
+                image: ''
+            },
+            {
+                id: '4',
+                state: false,
                 text: 'Hospitales',
+                color: '191, 48, 153',
                 size: '',
                 image: ''
             }
@@ -39,22 +56,19 @@ angular
         $scope.changeMapState = changeMapState;
 
         function changeSize() {
-            $scope.image = './PHP/imagen.php?' + $scope.imageSize;
             angular.forEach($scope.mapas, function(value, key){
-                if(!value.state) {
-                    value.size = $scope.imageSize;
+                value.size = $scope.imageSize;
+                if(value.state) {
                     value.image = './PHP/imagen.php?action=' + value.text + '&' + value.size;
-                    $scope.image = value.image;
                 }
             });
-            console.log($scope.image);
         }
         
-        function showMap(id, mapa) {
+        function showMap(id) {
             changeMapState(id);
         }
         
-        function hideMap(id, mapa) {
+        function hideMap(id) {
             changeMapState(id);
         }
         
