@@ -57,3 +57,7 @@ ul.zoomcontrols li{
 ul.zoomcontrols li:hover{
     background: #D1D1D1;
 }
+
+.hand {
+    cursor: pointer;
+}

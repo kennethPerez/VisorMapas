@@ -17,7 +17,7 @@ angular
         $scope.imageSize = '';
         $scope.mapas = [
             {
-                id: '1',
+                id: 0,
                 state: false,
                 text: 'Rios',
                 color: '30, 115, 190',
@@ -25,7 +25,7 @@ angular
                 image: ''
             },
             {
-                id: '2',
+                id: 1,
                 state: false,
                 text: 'Caminos',
                 color: '0, 178, 48',
@@ -33,7 +33,7 @@ angular
                 image: ''
             },
             {
-                id: '3',
+                id: 2,
                 state: false,
                 text: 'Escuelas',
                 color: '242, 117, 7',
@@ -41,7 +41,7 @@ angular
                 image: ''
             },
             {
-                id: '4',
+                id: 3,
                 state: false,
                 text: 'Hospitales',
                 color: '191, 48, 153',
@@ -51,9 +51,11 @@ angular
         ];
         
         $scope.changeSize = changeSize;
-        $scope.showMap = showMap;
-        $scope.hideMap = hideMap;
+        $scope.showHideMap = showHideMap;
         $scope.changeMapState = changeMapState;
+        $scope.removeMap = removeMap;
+        $scope.resetIdToMap = resetIdToMap;
+        $scope.sortMap = sortMap;
 
         function changeSize() {
             angular.forEach($scope.mapas, function(value, key){
@@ -64,11 +66,7 @@ angular
             });
         }
         
-        function showMap(id) {
-            changeMapState(id);
-        }
-        
-        function hideMap(id) {
+        function showHideMap(id) {
             changeMapState(id);
         }
         
@@ -78,5 +76,36 @@ angular
                     value.state = !value.state;
                 }
             });
+        }
+        
+        function removeMap(mapa) {
+            $scope.mapas = $scope.mapas.filter(function(item) {
+                return mapa !== item;
+            });
+        }
+        
+        function resetIdToMap() {
+            var i = 0;
+            angular.forEach($scope.mapas, function(value, key){
+                value.id = i;
+                i++;
+            });
+        }
+        
+        function sortMap(action, id, mapa) {
+            if(action === 'up') {
+                if(id !== 0) {
+                    removeMap(mapa);
+                    $scope.mapas.splice(id-1, 0, mapa);
+                    resetIdToMap();
+                }
+            }
+            else {
+                if(id !== $scope.mapas.length-1) {
+                    removeMap(mapa);
+                    $scope.mapas.splice(id+1, 0, mapa);
+                    resetIdToMap();
+                }
+            }
         }
     });

@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Visor de mapas</title>
-        <link rel="stylesheet" href="Bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="./css/style.css">
     </head>
     <body ng-controller="visorController">
@@ -20,33 +20,6 @@
             -->
             
             <div class="col-md-8">
-                <!--<div style="position: absolute;">
-                    <table>
-                        <tr>
-                            <td>
-                                <img src="./PHP/imagen.php?action=Rios&x=1024&y=840">
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div style="position: absolute">
-                    <table>
-                        <tr>
-                            <td>
-                                <img src="./PHP/imagen.php?action=Caminos&x=1024&y=840">
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div style="position: absolute;">
-                    <table>
-                        <tr>
-                            <td>
-                                <img src="./PHP/imagen.php?action=Hospitales&x=1024&y=840">
-                            </td>
-                        </tr>
-                    </table>
-                </div>-->
                 <div ng-repeat="mapa in mapas" style="position: absolute;">
                     <table ng-if="mapa.state">
                         <tr>
@@ -68,8 +41,10 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="mapa in mapas">
-                                <td><input type="checkbox" ng-click="mapa.state ? showMap(mapa.id) : hideMap(mapa.id)"></td>
+                                <td><input class="hand" type="checkbox" ng-click="showHideMap(mapa.id)"></td>
                                 <td>{{mapa.text}}</td>
+                                <td><span class="glyphicon glyphicon-arrow-up hand" ng-click="sortMap('up',mapa.id,mapa)"></span></td>
+                                <td><span class="glyphicon glyphicon-arrow-down hand" ng-click="sortMap('down',mapa.id,mapa)"></span></td>
                                 <td><div style="width: 30px; height: 20px; background-color: rgb({{mapa.color}});"></div></td>
                             </tr>
                         </tbody>
@@ -85,7 +60,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <select class="form-control" ng-model="imageSize" ng-change="changeSize()">
+                                    <select class="form-control hand" ng-model="imageSize" ng-change="changeSize()">
                                         <option value="x=640&y=480">640x480</option>
                                         <option value="x=760&y=600">760x600</option>
                                         <option value="x=1024&y=840">1024x840</option>
@@ -105,7 +80,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <select class="form-control">
+                                    <select class="form-control hand">
                                         <option value="">3x3</option>
                                         <option value="">4x4</option>
                                         <option value="">5x5</option>
