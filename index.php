@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>Visor de mapas</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body ng-controller="visorController">
         <div class="container">
@@ -95,17 +95,16 @@
         
         
         
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="./JS/jquery.kinetic.min.js" type="text/javascript"></script>
-	<script src="./JS/jquery.mousewheel.min.js"></script>
-	<script src="./JS/imagepanner.js"></script>
-	<script src="./JS/script.js"></script>
-        
+        <script src="JS/jquery.js"></script>
+        <script src="JS/jquery.kinetic.min.js" type="text/javascript"></script>
+	<script src="JS/jquery.mousewheel.min.js"></script>
+	<script src="JS/imagepanner.js"></script>
+	<script src="JS/script.js"></script>        
         <script src="AngularJS/angular.min.js"> </script>
         <script src="AngularJS/angular-route.min.js"></script>
         <script src="AngularJS/angular-animate.min.js"></script>
         <script src="AngularJS/ui-bootstrap-tpls-0.14.3.min.js"></script>
-        <script src="JS/jquery.js"></script>
+        
         <script src="Bootstrap/bootstrap.min.js"></script>
         <script src="JS/app.js"></script>
     </body>

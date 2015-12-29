@@ -2,25 +2,26 @@
     require './graficos.php';
     header('Content-Type: image/png');
     
-    $x = $_REQUEST['x'];
-    $y = $_REQUEST['y'];
-    $action = $_REQUEST['action'];
+    $type = $_REQUEST['type'];    
+    $capa = $_REQUEST['capa'];
+    $trans = $_REQUEST['trans'];
+    $i = $_REQUEST['i'];
+    $j = $_REQUEST['j'];
     
     $graficos = new graficos();
     
-    if($action == 'Caminos') {
-        $img = $graficos->crearMapaCaminos($x, $y);
+    if($type == "Polygon")
+    {
+        $img = $graficos->CreatePolygon($capa, 1024, 768, 3, 3, $trans, $i, $j);
     }
-    else if($action == 'Hospitales') {
-        $img = $graficos->crearMapaHospitales($x, $y);
+    if($type == "Point")
+    {
+        $img = $graficos->CreatePoint($capa, 1024, 768, 3, 3, $trans, $i, $j);
     }
-    else if($action == 'Rios') {
-        $img = $graficos->crearMapaRios($x, $y);
-    }
-    else if($action == 'Escuelas') {
-        $img = $graficos->crearMapaEscuelas($x, $y);
-    }
+    if($type == "Line")
+    {
+        $img = $graficos->CreateLine($capa, 1024, 768, 3, 3, $trans, $i, $j);
+    }       
     
     imagepng($img);
     imagedestroy($img);
-?>
