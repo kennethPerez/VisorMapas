@@ -6,7 +6,7 @@ require '../BD/Conexion.php';
 class graficos {
       
     
-    function CreatePoint($capa, $largo, $ancho, $filas, $columnas, $trans, $zoom, $i, $j)
+    function CreatePoint($capa, $largo, $ancho, $filas, $columnas, $trans, $zoom, $despX, $despY, $i, $j)
     {
         $conexion = new Conexion();
         $conn = $conexion->getConexion();
@@ -39,7 +39,9 @@ class graficos {
                           select gid, h.geom FROM hospitales h
                             where st_intersects((
                             select st_setsrid( Box2D( st_buffer( p.centroide, ((c.distancia-(c.distancia * $zoom ))/2)) ), 5367 ) geom from 
-                              (select st_centroid(geom) centroide from distritos where gid = 302) p,
+                              (select ST_GeomFromText(st_astext(st_point( st_x(st_centroid(geom))-((st_x(st_centroid(geom))* $despX )/2) , st_y(st_centroid(geom))-((st_x(st_centroid(geom))* $despY )/2) )),5367)  centroide
+                                from distritos 
+                                where gid = 302) p,
                               (select (max(st_xmax(geom))-min(st_xmin(geom))) distancia from distritos) c
                             ), h.geom)
                          ) c,
@@ -47,7 +49,9 @@ class graficos {
                           select min(st_xmin(geom)) xinicial, (max(st_xmax(geom))-min(st_xmin(geom)))/$ancho factor, min(st_ymin(geom)) yinicial from 
                             (
                             select st_setsrid( Box2D( st_buffer( p.centroide, ((c.distancia-(c.distancia * $zoom ))/2)) ), 5367 ) geom from 
-                              (select st_centroid(geom) centroide from distritos where gid = 302) p,
+                              (select ST_GeomFromText(st_astext(st_point( st_x(st_centroid(geom))-((st_x(st_centroid(geom))* $despX )/2) , st_y(st_centroid(geom))-((st_x(st_centroid(geom))* $despY )/2) )),5367)  centroide
+                                from distritos 
+                                where gid = 302) p,
                               (select (max(st_xmax(geom))-min(st_xmin(geom))) distancia from distritos) c
                             ) c 
                          ) o
@@ -70,7 +74,9 @@ class graficos {
                           select gid, h.geom FROM escuelas_publicas h
                             where st_intersects((
                             select st_setsrid( Box2D( st_buffer( p.centroide, ((c.distancia-(c.distancia * $zoom ))/2)) ), 5367 ) geom from 
-                              (select st_centroid(geom) centroide from distritos where gid = 302) p,
+                              (select ST_GeomFromText(st_astext(st_point( st_x(st_centroid(geom))-((st_x(st_centroid(geom))* $despX )/2) , st_y(st_centroid(geom))-((st_x(st_centroid(geom))* $despY )/2) )),5367)  centroide
+                                from distritos 
+                                where gid = 302) p,
                               (select (max(st_xmax(geom))-min(st_xmin(geom))) distancia from distritos) c
                             ), h.geom)
                          ) c,
@@ -78,7 +84,9 @@ class graficos {
                           select min(st_xmin(geom)) xinicial, (max(st_xmax(geom))-min(st_xmin(geom)))/$ancho factor, min(st_ymin(geom)) yinicial from 
                             (
                             select st_setsrid( Box2D( st_buffer( p.centroide, ((c.distancia-(c.distancia * $zoom ))/2)) ), 5367 ) geom from 
-                              (select st_centroid(geom) centroide from distritos where gid = 302) p,
+                              (select ST_GeomFromText(st_astext(st_point( st_x(st_centroid(geom))-((st_x(st_centroid(geom))* $despX )/2) , st_y(st_centroid(geom))-((st_x(st_centroid(geom))* $despY )/2) )),5367)  centroide
+                                from distritos 
+                                where gid = 302) p,
                               (select (max(st_xmax(geom))-min(st_xmin(geom))) distancia from distritos) c
                             ) c 
                          ) o
@@ -96,7 +104,7 @@ class graficos {
         return ($imagen);
     }
     
-    function CreatePolygon($capa, $largo, $ancho, $filas, $columnas, $trans, $zoom, $i, $j)
+    function CreatePolygon($capa, $largo, $ancho, $filas, $columnas, $trans, $zoom, $despX, $despY, $i, $j)
     {
         $conexion = new Conexion();
         $conn = $conexion->getConexion();
@@ -133,7 +141,9 @@ class graficos {
                           select gid, d.geom from distritos d
                           where st_intersects((
                             select st_setsrid( Box2D( st_buffer( p.centroide, ((c.distancia-(c.distancia * $zoom ))/2)) ), 5367 ) geom from 
-                              (select st_centroid(geom) centroide from distritos where gid = 302) p,
+                              (select ST_GeomFromText(st_astext(st_point( st_x(st_centroid(geom))-((st_x(st_centroid(geom))* $despX )/2) , st_y(st_centroid(geom))-((st_x(st_centroid(geom))* $despY )/2) )),5367)  centroide
+                                from distritos 
+                                where gid = 302) p,
                               (select (max(st_xmax(geom))-min(st_xmin(geom))) distancia from distritos) c
                             ), d.geom)
                           ) s 
@@ -142,14 +152,15 @@ class graficos {
                         select min(st_xmin(geom)) xinicial, (max(st_xmax(geom))-min(st_xmin(geom)))/$ancho factor,min(st_ymin(geom)) yinicial from 
                           (
                           select st_setsrid( Box2D( st_buffer( p.centroide, ((c.distancia-(c.distancia * $zoom ))/2)) ), 5367 ) geom from 
-                            (select st_centroid(geom) centroide from distritos where gid = 302) p,
+                            (select ST_GeomFromText(st_astext(st_point( st_x(st_centroid(geom))-((st_x(st_centroid(geom))* $despX )/2) , st_y(st_centroid(geom))-((st_x(st_centroid(geom))* $despY )/2) )),5367)  centroide
+                                from distritos 
+                                where gid = 302) p,
                             (select (max(st_xmax(geom))-min(st_xmin(geom))) distancia from distritos) c
                           ) c 
                         ) c
                       where ( ((d.x - c.xinicial)/c.factor) between $Xde and $Xa) and 
                             ( ( $ancho -((d.y - c.yinicial)/c.factor)) between $Yde and $Ya)
                       group by gid";
-
             $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
             while ($row = pg_fetch_row($result))
             {    
@@ -163,7 +174,7 @@ class graficos {
         return ($imagen);
     }
     
-    function CreateLine($capa, $largo, $ancho, $filas, $columnas, $trans, $zoom, $i, $j)
+    function CreateLine($capa, $largo, $ancho, $filas, $columnas, $trans, $zoom, $despX, $despY, $i, $j)
     {
         $conexion = new Conexion();
         $conn = $conexion->getConexion();
@@ -196,7 +207,9 @@ class graficos {
                        select min(st_xmin(geom)) xinicial, (max(st_xmax(geom))-min(st_xmin(geom)))/ $ancho factor,min(st_ymin(geom)) yinicial from 
                          (
                          select st_setsrid( Box2D( st_buffer( p.centroide, ((c.distancia-(c.distancia * $zoom ))/2)) ), 5367 ) geom from 
-                           (select st_centroid(geom) centroide from distritos where gid = 302) p,
+                           (select ST_GeomFromText(st_astext(st_point( st_x(st_centroid(geom))-((st_x(st_centroid(geom))* $despX )/2) , st_y(st_centroid(geom))-((st_x(st_centroid(geom))* $despY )/2) )),5367)  centroide
+                                from distritos 
+                                where gid = 302) p,
                            (select (max(st_xmax(geom))-min(st_xmin(geom))) distancia from distritos) c
                          ) c 
                        ) c ,
@@ -204,7 +217,9 @@ class graficos {
                        select gid ,((ST_DumpPoints((ST_GeometryN(geom,1)))).geom) geom FROM caminos e
                        where st_intersects((
                         select st_setsrid( Box2D( st_buffer( p.centroide, ((c.distancia-(c.distancia * $zoom ))/2)) ), 5367 ) geomB from 
-                           (select st_centroid(geom) centroide from distritos where gid = 302) p,
+                           (select ST_GeomFromText(st_astext(st_point( st_x(st_centroid(geom))-((st_x(st_centroid(geom))* $despX )/2) , st_y(st_centroid(geom))-((st_x(st_centroid(geom))* $despY )/2) )),5367)  centroide
+                                from distritos 
+                                where gid = 302) p,
                            (select (max(st_xmax(geom))-min(st_xmin(geom))) distancia from distritos) c
                         ), e.geom)
                        ) ca
@@ -248,7 +263,9 @@ class graficos {
                        select min(st_xmin(geom)) xinicial, (max(st_xmax(geom))-min(st_xmin(geom)))/ $ancho factor,min(st_ymin(geom)) yinicial from 
                          (
                          select st_setsrid( Box2D( st_buffer( p.centroide, ((c.distancia-(c.distancia * $zoom ))/2)) ), 5367 ) geom from 
-                           (select st_centroid(geom) centroide from distritos where gid = 302) p,
+                           (select ST_GeomFromText(st_astext(st_point( st_x(st_centroid(geom))-((st_x(st_centroid(geom))* $despX )/2) , st_y(st_centroid(geom))-((st_x(st_centroid(geom))* $despY )/2) )),5367)  centroide
+                                from distritos 
+                                where gid = 302) p,
                            (select (max(st_xmax(geom))-min(st_xmin(geom))) distancia from distritos) c
                          ) c 
                        ) c ,
@@ -256,7 +273,9 @@ class graficos {
                        select gid ,((ST_DumpPoints((ST_GeometryN(geom,1)))).geom) geom FROM rios e
                        where st_intersects((
                          select st_setsrid( Box2D( st_buffer( p.centroide, ((c.distancia-(c.distancia * $zoom ))/2)) ), 5367 ) geomB from 
-                            (select st_centroid(geom) centroide from distritos where gid = 302) p,
+                            (select ST_GeomFromText(st_astext(st_point( st_x(st_centroid(geom))-((st_x(st_centroid(geom))* $despX )/2) , st_y(st_centroid(geom))-((st_x(st_centroid(geom))* $despY )/2) )),5367)  centroide
+                                from distritos 
+                                where gid = 302) p,
                             (select (max(st_xmax(geom))-min(st_xmin(geom))) distancia from distritos) c
                          ), e.geom)
                        ) ca
