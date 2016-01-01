@@ -30,9 +30,9 @@ class graficos {
         
         
         $query = "";
-        if($capa == "h")
+        if($capa == "Hospitales")
         {
-            $blue = imagecolorallocatealpha($imagen, 0, 0, 255, $trans);
+            $purple = imagecolorallocatealpha($imagen, 191, 48, 153, $trans);
             $query = "select ((st_x(st_geometryN(geom,1))-o.xinicial)/o.factor) as x, ($ancho - ((st_y(st_geometryN(geom,1))-o.yinicial)/o.factor)) as y 
                         from 
                          (
@@ -62,16 +62,16 @@ class graficos {
         
             while ($row = pg_fetch_row($result))
             {
-                imagefilledellipse($imagen, ($row[0]-$factorLargo), ($row[1]-$factorAncho), 6, 6, $blue);
+                imagefilledellipse($imagen, ($row[0]-$factorLargo), ($row[1]-$factorAncho), 6, 6, $purple);
             }
         }
-        else if($capa == "e")
+        else if($capa == "Escuelas")
         {
-           $red = imagecolorallocatealpha($imagen, 255, 0, 0, $trans);
+           $orange = imagecolorallocatealpha($imagen, 242, 117, 7, $trans);
            $query = "select ((st_x(st_geometryN(geom,1))-o.xinicial)/o.factor) as x, ($ancho - ((st_y(st_geometryN(geom,1))-o.yinicial)/o.factor)) as y 
                         from 
                          (
-                          select gid, h.geom FROM escuelas_publicas h
+                          select gid, h.geom FROM escuelaspu h
                             where st_intersects((
                             select st_setsrid( Box2D( st_buffer( p.centroide, ((c.distancia-(c.distancia * $zoom ))/2)) ), 5367 ) geom from 
                               (select ST_GeomFromText(st_astext(st_point( st_x(st_centroid(geom))-((st_x(st_centroid(geom))* $despX )/2) , st_y(st_centroid(geom))-((st_x(st_centroid(geom))* $despY )/2) )),5367)  centroide
@@ -97,7 +97,7 @@ class graficos {
         
             while ($row = pg_fetch_row($result))
             {
-                imagefilledellipse($imagen, ($row[0]-$factorLargo), ($row[1]-$factorAncho), 6, 6, $red);
+                imagefilledellipse($imagen, ($row[0]-$factorLargo), ($row[1]-$factorAncho), 6, 6, $orange);
             } 
         }
         
@@ -130,9 +130,9 @@ class graficos {
         $negro = imagecolorallocatealpha($imagen, 0, 0, 0, 0);
         
         $query = "";
-        if($capa == "d")
+        if($capa == "Distritos")
         {
-            $verde = imagecolorallocatealpha($imagen, 0, 255, 0, $trans);
+            $verde = imagecolorallocatealpha($imagen, 0, 178, 48, $trans);
             $query = "SELECT gid, count(((d.x - c.xinicial)/c.factor)) as npuntos, string_agg((cast( ((d.x - c.xinicial)/c.factor)- $factorLargo as varchar)||','||cast( ($ancho - ((d.y - c.yinicial)/c.factor))- $factorAncho as varchar)),',') as puntos FROM 
                         (
                         SELECT gid, st_x((ST_DumpPoints(geom)).geom) x, st_y((ST_DumpPoints(geom)).geom) y 
@@ -166,7 +166,6 @@ class graficos {
             {    
                 $valores = explode(",", $row[2]);
                 imagefilledpolygon($imagen, $valores, $row[1], $verde);
-                //imagepolygon($imagen, $valores, $row[1], $negro);
             }
         
         }        
@@ -198,9 +197,9 @@ class graficos {
         imagesavealpha($imagen, true);       
         
         $query = "";
-        if($capa == "c")
+        if($capa == "Caminos")
         {
-            $orange = imagecolorallocatealpha($imagen, 242, 117, 7, $trans);
+            $red = imagecolorallocatealpha($imagen, 229, 0, 0, $trans);
             $query = "SELECT gid, string_agg( (cast( ((ST_X(ST_GeometryN(ca.geom,1))-c.xinicial)/c.factor)- $factorLargo as varchar)), ',') x,
                             string_agg( (cast( ($ancho - (ST_Y(ST_GeometryN(ca.geom,1))-c.yinicial)/c.factor)- $factorAncho as varchar)),',' ) y FROM
                        (
@@ -247,16 +246,16 @@ class graficos {
                     }
                     else
                     {
-                        imageline($imagen , $xi, $yi , $x[$i] , $y[$i] , $orange);
+                        imageline($imagen , $xi, $yi , $x[$i] , $y[$i] , $red);
                         $xi = $x[$i];
                         $yi = $y[$i];
                     }                    
                 }
             }
         }
-        if($capa == "r")
+        else if($capa == "Rios")
         {
-            $yellow = imagecolorallocatealpha($imagen, 238, 231, 41, $trans);
+            $blue = imagecolorallocatealpha($imagen, 30, 115, 190, $trans);
             $query = "SELECT gid, string_agg( (cast( ((ST_X(ST_GeometryN(ca.geom,1))-c.xinicial)/c.factor)- $factorLargo as varchar)), ',') x,
                             string_agg( (cast( ($ancho - (ST_Y(ST_GeometryN(ca.geom,1))-c.yinicial)/c.factor)- $factorAncho as varchar)),',' ) y FROM
                        (
@@ -303,7 +302,7 @@ class graficos {
                     }
                     else
                     {
-                        imageline($imagen , $xi, $yi , $x[$i] , $y[$i] , $yellow);
+                        imageline($imagen , $xi, $yi , $x[$i] , $y[$i] , $blue);
                         $xi = $x[$i];
                         $yi = $y[$i];
                     }                    

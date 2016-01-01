@@ -1,73 +1,96 @@
 angular
-    .module("app", ["ngRoute", 'ngAnimate', 'ui.bootstrap'])
-    .config(function($routeProvider){
-        $routeProvider
-            .when("/", {
-                controller: "visorController",
-                templateUrl: "Vistas/visor.html"
-            });
-    })
-
-    .factory('Data', function () {
-        var info = {};
-        return info;
-    })
-
-    .controller("visorController", function($scope, $http, $location, Data) {        
-        $scope.imageSize = '';
+    .module("app", [])
+    .controller("visorController", function($scope) {        
+        $scope.imageSize = 'x=500&y=400';
+        $scope.rowsColumns = '3';
+        $scope.despX = 0.0;
+        $scope.despY = 0.0;
         $scope.mapas = [
             {
                 id: 0,
                 state: false,
                 text: 'Rios',
                 color: '30, 115, 190',
-                size: '',
-                image: ''
+                transparency: 10,
+                zoom : 0.0,
+                type: 'type=Line',
+                image: []
             },
             {
                 id: 1,
                 state: false,
                 text: 'Caminos',
-                color: '0, 178, 48',
-                size: '',
-                image: ''
+                color: '229, 0, 0',
+                transparency: 10,
+                zoom : 0.0,
+                type: 'type=Line',
+                image: []
             },
             {
                 id: 2,
                 state: false,
                 text: 'Escuelas',
                 color: '242, 117, 7',
-                size: '',
-                image: ''
+                transparency: 10,
+                zoom : 0.0,
+                type: 'type=Point',
+                image: []
             },
             {
                 id: 3,
                 state: false,
                 text: 'Hospitales',
                 color: '191, 48, 153',
-                size: '',
-                image: ''
+                transparency: 10,
+                zoom : 0.0,
+                type: 'type=Point',
+                image: []
+            },
+            {
+                id: 4,
+                state: false,
+                text: 'Distritos',
+                color: '0, 178, 48',
+                transparency: 10,
+                zoom : 0.0,
+                type: 'type=Polygon',
+                image: []
             }
         ];
         
-        $scope.changeSize = changeSize;
+        $scope.generateSubImage = generateSubImage;
+        $scope.generateImage = generateImage;
         $scope.showHideMap = showHideMap;
         $scope.changeMapState = changeMapState;
         $scope.removeMap = removeMap;
         $scope.resetIdToMap = resetIdToMap;
         $scope.sortMap = sortMap;
-
-        function changeSize() {
+        $scope.zoom = zoom;
+        $scope.displacement = displacement;
+        
+        function generateSubImage(capa) {
+            capa.image = [];
+            var row = {};
+            for(var i=0; i<$scope.rowsColumns; i++) {
+                for(var j=0; j<$scope.rowsColumns; j++) {
+                    row[j] = {piece:'./PHP/imagen.php?'+capa.type+'&trans='+capa.transparency+'&capa='+capa.text+'&rowsColumns='+$scope.rowsColumns+'&'+$scope.imageSize+'&zoom='+capa.zoom+'&despX='+$scope.despX+'&despY='+$scope.despY+'&i='+i+'&j='+j};
+                }
+                capa.image.push(row);
+                row = {};
+            }
+        }
+        
+        function generateImage() {
             angular.forEach($scope.mapas, function(value, key){
-                value.size = $scope.imageSize;
                 if(value.state) {
-                    value.image = './PHP/imagen.php?action=' + value.text + '&' + value.size;
+                    generateSubImage(value);
                 }
             });
         }
         
         function showHideMap(id) {
             changeMapState(id);
+            generateImage();
         }
         
         function changeMapState(id) {
@@ -107,5 +130,39 @@ angular
                     resetIdToMap();
                 }
             }
+        }
+        
+        function zoom(action) {
+            angular.forEach($scope.mapas, function(value, key){
+                if(action === 'in') {
+                    if(value.zoom <= 0.9000000000000002) {
+                        value.zoom += 0.05;
+                    }
+                }
+                else {
+                    if(value.zoom >= 0.05) {
+                        value.zoom -= 0.05;
+                    }
+                }
+            });
+            
+            generateImage();
+        }
+        
+        function displacement(way) {
+            if(way === 'up') {
+                $scope.despY += 0.1;
+            }
+            else if(way === 'left') {
+                $scope.despX = $scope.despX - 0.1;
+            }
+            else if(way === 'right') {
+                $scope.despX += 0.1;
+            }
+            else {
+                $scope.despY = $scope.despY - 0.1;
+            }
+            
+            generateImage();
         }
     });
