@@ -7,8 +7,8 @@
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body ng-controller="visorController">
-        <div class="container">
-            <div class="col-md-8">
+        <div>
+            <div class="col-md-9">
                 <div ng-repeat="mapa in mapas" style="position: absolute;">
                     <table ng-if="mapa.state">
                         <tr ng-repeat="image in mapa.image">
@@ -20,7 +20,7 @@
                 </div>
             </div>
             
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="col-md-12" style="overflow-y:auto; height:260px;">
                     <table class="table table-striped">
                         <thead>
@@ -101,6 +101,22 @@
                                 <td></td>
                                 <td><center><span class="glyphicon glyphicon-triangle-bottom hand" ng-click="displacement('down');"></span></center></td>
                                 <td></td>
+                            </tr>                            
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th colspan="3">Fullscreen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td><center><span class="glyphicon glyphicon-fullscreen hand" ng-click="goFullscreen()"></span></center></td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
@@ -109,6 +125,7 @@
         </div>
              
         <script src="JS/angular.min.js"> </script>
+        <script src="JS/angular-fullscreen.js"></script>
         <script src="JS/app.js"></script>
     </body>
 </html>

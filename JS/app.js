@@ -1,6 +1,6 @@
 angular
-    .module("app", [])
-    .controller("visorController", function($scope) {        
+    .module("app", ['FBAngular'])
+    .controller("visorController", function($scope, Fullscreen) {        
         $scope.imageSize = 'x=500&y=400';
         $scope.rowsColumns = '3';
         $scope.despX = 0.0;
@@ -58,6 +58,7 @@ angular
             }
         ];
         
+        $scope.goFullscreen = goFullscreen;        
         $scope.generateSubImage = generateSubImage;
         $scope.generateImage = generateImage;
         $scope.showHideMap = showHideMap;
@@ -67,6 +68,15 @@ angular
         $scope.sortMap = sortMap;
         $scope.zoom = zoom;
         $scope.displacement = displacement;
+        
+        
+        function goFullscreen()
+        {
+            if (Fullscreen.isEnabled())
+               Fullscreen.cancel();
+            else
+               Fullscreen.all();
+        }
         
         function generateSubImage(capa) {
             capa.image = [];

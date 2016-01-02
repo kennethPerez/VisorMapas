@@ -71,7 +71,7 @@ class graficos {
            $query = "select ((st_x(st_geometryN(geom,1))-o.xinicial)/o.factor) as x, ($ancho - ((st_y(st_geometryN(geom,1))-o.yinicial)/o.factor)) as y 
                         from 
                          (
-                          select gid, h.geom FROM escuelaspu h
+                          select gid, h.geom FROM escuelas_publicas h
                             where st_intersects((
                             select st_setsrid( Box2D( st_buffer( p.centroide, ((c.distancia-(c.distancia * $zoom ))/2)) ), 5367 ) geom from 
                               (select ST_GeomFromText(st_astext(st_point( st_x(st_centroid(geom))-((st_x(st_centroid(geom))* $despX )/2) , st_y(st_centroid(geom))-((st_x(st_centroid(geom))* $despY )/2) )),5367)  centroide
