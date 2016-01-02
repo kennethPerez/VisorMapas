@@ -21,11 +21,11 @@
             </div>
             
             <div class="col-md-3">
-                <div class="col-md-12" style="overflow-y:auto; height:260px;">
+                <div class="col-md-12" style="overflow-y:auto; height:230px;">
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th colspan="5">Seleccione las capas a mostrar</th>
+                                <th colspan="5"><span class="glyphicon glyphicon-list"></span> Seleccione las capas a mostrar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,7 +44,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th colspan="2">Configuraciones</th>
+                                <th colspan="2"><span class="glyphicon glyphicon-cog"></span> Configuraciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,9 +72,11 @@
                             </tr>
                             <tr>
                                 <td>Zoom</td>
-                                <td><span class="glyphicon glyphicon-zoom-out hand" ng-click="zoom('out')"></span>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <span class="glyphicon glyphicon-zoom-in hand" ng-click="zoom('in')"></span></td>
+                                <td><input type="range" min="0" max="0.95" step="0.05" value="0" ng-model="zoom" ng-change="generateImage();"></td>
+                            </tr>
+                            <tr>
+                                <td>Fullscreen</td>
+                                <td><span class="glyphicon glyphicon-fullscreen hand" ng-click="goFullscreen()"></span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -83,7 +85,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th colspan="3">Desplazamiento de las capas</th>
+                                <th colspan="3"><span class="glyphicon glyphicon-move"></span> Desplazamiento de las capas</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,7 +96,7 @@
                             </tr>
                             <tr>
                                 <td><center><span class="glyphicon glyphicon-triangle-left hand" ng-click="displacement('left');"></span></center></td>
-                                <td></td>
+                                <td><center><span class="glyphicon glyphicon-refresh hand" ng-click="displacement('reset');"></span></center></td>
                                 <td><center><span class="glyphicon glyphicon-triangle-right hand" ng-click="displacement('right');"></span></center></td>
                             </tr>
                             <tr>
@@ -102,22 +104,6 @@
                                 <td><center><span class="glyphicon glyphicon-triangle-bottom hand" ng-click="displacement('down');"></span></center></td>
                                 <td></td>
                             </tr>                            
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-12">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th colspan="3">Fullscreen</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                <td><center><span class="glyphicon glyphicon-fullscreen hand" ng-click="goFullscreen()"></span></center></td>
-                                <td></td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>

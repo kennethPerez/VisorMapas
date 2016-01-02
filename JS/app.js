@@ -5,6 +5,7 @@ angular
         $scope.rowsColumns = '3';
         $scope.despX = 0.0;
         $scope.despY = 0.0;
+        $scope.zoom = 0.0;
         $scope.mapas = [
             {
                 id: 0,
@@ -12,7 +13,6 @@ angular
                 text: 'Rios',
                 color: '30, 115, 190',
                 transparency: 10,
-                zoom : 0.0,
                 type: 'type=Line',
                 image: []
             },
@@ -22,7 +22,6 @@ angular
                 text: 'Caminos',
                 color: '229, 0, 0',
                 transparency: 10,
-                zoom : 0.0,
                 type: 'type=Line',
                 image: []
             },
@@ -32,7 +31,6 @@ angular
                 text: 'Escuelas',
                 color: '242, 117, 7',
                 transparency: 10,
-                zoom : 0.0,
                 type: 'type=Point',
                 image: []
             },
@@ -42,7 +40,6 @@ angular
                 text: 'Hospitales',
                 color: '191, 48, 153',
                 transparency: 10,
-                zoom : 0.0,
                 type: 'type=Point',
                 image: []
             },
@@ -52,7 +49,6 @@ angular
                 text: 'Distritos',
                 color: '0, 178, 48',
                 transparency: 10,
-                zoom : 0.0,
                 type: 'type=Polygon',
                 image: []
             }
@@ -66,7 +62,6 @@ angular
         $scope.removeMap = removeMap;
         $scope.resetIdToMap = resetIdToMap;
         $scope.sortMap = sortMap;
-        $scope.zoom = zoom;
         $scope.displacement = displacement;
         
         
@@ -83,7 +78,7 @@ angular
             var row = {};
             for(var i=0; i<$scope.rowsColumns; i++) {
                 for(var j=0; j<$scope.rowsColumns; j++) {
-                    row[j] = {piece:'./PHP/imagen.php?'+capa.type+'&trans='+capa.transparency+'&capa='+capa.text+'&rowsColumns='+$scope.rowsColumns+'&'+$scope.imageSize+'&zoom='+capa.zoom+'&despX='+$scope.despX+'&despY='+$scope.despY+'&i='+i+'&j='+j};
+                    row[j] = {piece:'./PHP/imagen.php?'+capa.type+'&trans='+capa.transparency+'&capa='+capa.text+'&rowsColumns='+$scope.rowsColumns+'&'+$scope.imageSize+'&zoom='+$scope.zoom+'&despX='+$scope.despX+'&despY='+$scope.despY+'&i='+i+'&j='+j};
                 }
                 capa.image.push(row);
                 row = {};
@@ -142,23 +137,6 @@ angular
             }
         }
         
-        function zoom(action) {
-            angular.forEach($scope.mapas, function(value, key){
-                if(action === 'in') {
-                    if(value.zoom <= 0.9000000000000002) {
-                        value.zoom += 0.05;
-                    }
-                }
-                else {
-                    if(value.zoom >= 0.05) {
-                        value.zoom -= 0.05;
-                    }
-                }
-            });
-            
-            generateImage();
-        }
-        
         function displacement(way) {
             if(way === 'up') {
                 $scope.despY += 0.1;
@@ -169,8 +147,12 @@ angular
             else if(way === 'right') {
                 $scope.despX += 0.1;
             }
-            else {
+            else if(way === 'down') {
                 $scope.despY = $scope.despY - 0.1;
+            }
+            else {
+                $scope.despX = 0.0;
+                $scope.despY = 0.0;
             }
             
             generateImage();
