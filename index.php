@@ -50,7 +50,7 @@
                         <tbody>
                             <tr>
                                 <td>Tamaño</td>
-                                <td>
+                                <td colspan="2">
                                     <select class="form-control hand" ng-model="imageSize" ng-change="generateImage()">
                                         <option value="x=500&y=400">500x400</option>
                                         <option value="x=640&y=480">640x480</option>
@@ -62,7 +62,7 @@
                             </tr>
                             <tr>
                                 <td>Filas y columnas</td>
-                                <td>
+                                <td colspan="2">
                                     <select class="form-control hand" ng-model="rowsColumns" ng-change="generateImage()">
                                         <option value="3">3x3</option>
                                         <option value="4">4x4</option>
@@ -71,12 +71,13 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Zoom</td>
-                                <td><input type="range" min="0" max="0.95" step="0.05" value="0" ng-model="zoom" ng-change="generateImage();"></td>
+                                <td>Zoom</td>                                
+                                <td><span class="glyphicon glyphicon-plus hand" ng-click="plus()"></span><span class="glyphicon glyphicon-minus hand" ng-click="minus()"></span></td>
+                                <td><center><input type="range" min="0" max="0.9" step="0.1" value="0" ng-model="zoom" ng-change="generateImage();"></center></td>
                             </tr>
                             <tr>
                                 <td>Fullscreen</td>
-                                <td><span class="glyphicon glyphicon-fullscreen hand" ng-click="goFullscreen()"></span></td>
+                                <td colspan="2"><span class="glyphicon glyphicon-fullscreen hand" ng-click="goFullscreen()"></span></td>
                             </tr>
                         </tbody>
                     </table>

@@ -10,6 +10,15 @@ angular
             {
                 id: 0,
                 state: false,
+                text: 'Distritos',
+                color: '0, 178, 48',
+                transparency: 10,
+                type: 'type=Polygon',
+                image: []
+            },
+            {
+                id: 1,
+                state: false,
                 text: 'Rios',
                 color: '30, 115, 190',
                 transparency: 10,
@@ -17,7 +26,7 @@ angular
                 image: []
             },
             {
-                id: 1,
+                id: 2,
                 state: false,
                 text: 'Caminos',
                 color: '229, 0, 0',
@@ -26,7 +35,7 @@ angular
                 image: []
             },
             {
-                id: 2,
+                id: 3,
                 state: false,
                 text: 'Escuelas',
                 color: '242, 117, 7',
@@ -35,21 +44,12 @@ angular
                 image: []
             },
             {
-                id: 3,
+                id: 4,
                 state: false,
                 text: 'Hospitales',
                 color: '191, 48, 153',
                 transparency: 10,
                 type: 'type=Point',
-                image: []
-            },
-            {
-                id: 4,
-                state: false,
-                text: 'Distritos',
-                color: '0, 178, 48',
-                transparency: 10,
-                type: 'type=Polygon',
                 image: []
             }
         ];
@@ -63,7 +63,24 @@ angular
         $scope.resetIdToMap = resetIdToMap;
         $scope.sortMap = sortMap;
         $scope.displacement = displacement;
+        $scope.plus = plus;
+        $scope.minus = minus;
         
+        function plus()
+        {
+            if($scope.zoom < 0.88){                
+                $scope.zoom += 0.1;
+                generateImage();
+            }            
+        } 
+        
+        function minus()
+        {
+            if($scope.zoom > 0.0){
+                $scope.zoom -= 0.1;
+                generateImage();
+            }
+        } 
         
         function goFullscreen()
         {
