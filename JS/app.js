@@ -63,27 +63,9 @@ angular
         $scope.resetIdToMap = resetIdToMap;
         $scope.sortMap = sortMap;
         $scope.displacement = displacement;
-        $scope.plus = plus;
-        $scope.minus = minus;
+        $scope.zoomMap = zoomMap;
         
-        function plus()
-        {
-            if($scope.zoom < 0.88){                
-                $scope.zoom += 0.1;
-                generateImage();
-            }            
-        } 
-        
-        function minus()
-        {
-            if($scope.zoom > 0.0){
-                $scope.zoom -= 0.1;
-                generateImage();
-            }
-        } 
-        
-        function goFullscreen()
-        {
+        function goFullscreen() {
             if (Fullscreen.isEnabled())
                Fullscreen.cancel();
             else
@@ -173,5 +155,13 @@ angular
             }
             
             generateImage();
+        }
+        
+        function zoomMap(mapa) {
+            $scope.zoom = -0.1;
+            generateImage();
+            removeMap(mapa);
+            $scope.mapas.splice(0, 0, mapa);
+            resetIdToMap();
         }
     });

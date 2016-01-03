@@ -8,7 +8,7 @@
     </head>
     <body ng-controller="visorController">
         <div>
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <div ng-repeat="mapa in mapas" style="position: absolute;">
                     <table ng-if="mapa.state">
                         <tr ng-repeat="image in mapa.image">
@@ -20,21 +20,22 @@
                 </div>
             </div>
             
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="col-md-12" style="overflow-y:auto; height:230px;">
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th colspan="5"><span class="glyphicon glyphicon-list"></span> Seleccione las capas a mostrar</th>
+                                <th colspan="7"><span class="glyphicon glyphicon-list"></span> Seleccione las capas a mostrar</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="mapa in mapas">
                                 <td><input class="hand" type="checkbox" ng-click="showHideMap(mapa.id)"></td>
                                 <td>{{mapa.text}}</td>
-                                <td><span class="glyphicon glyphicon-arrow-up hand" ng-click="sortMap('up',mapa.id,mapa)"></span>
-                                    <span class="glyphicon glyphicon-arrow-down hand" ng-click="sortMap('down',mapa.id,mapa)"></span></td>
-                                <td><input type="range" min="0" max="127" step="1" value="mapa.transparency" ng-model="mapa.transparency" ng-change="generateImage();"></td>
+                                <td><span title="Zoom a la capa" class="glyphicon glyphicon-screenshot hand" ng-click="zoomMap(mapa)"></span></td>
+                                <td><span title="Subir capa" class="glyphicon glyphicon-arrow-up hand" ng-click="sortMap('up',mapa.id,mapa)"></span></td>
+                                <td><span title="Bajar capa" class="glyphicon glyphicon-arrow-down hand" ng-click="sortMap('down',mapa.id,mapa)"></span></td>
+                                <td><input title="Transparencia" type="range" min="0" max="127" step="1" value="mapa.transparency" ng-model="mapa.transparency" ng-change="generateImage();"></td>
                                 <td><div style="width: 30px; height: 20px; background-color: rgb({{mapa.color}});"></div></td>
                             </tr>
                         </tbody>
@@ -72,8 +73,7 @@
                             </tr>
                             <tr>
                                 <td>Zoom</td>                                
-                                <td><span class="glyphicon glyphicon-plus hand" ng-click="plus()"></span><span class="glyphicon glyphicon-minus hand" ng-click="minus()"></span></td>
-                                <td><center><input type="range" min="0" max="0.9" step="0.1" value="0" ng-model="zoom" ng-change="generateImage();"></center></td>
+                                <td><center><input class="hand" type="range" min="0" max="0.9" step="0.1" value="0" ng-model="zoom" ng-change="generateImage();"></center></td>
                             </tr>
                             <tr>
                                 <td>Fullscreen</td>
@@ -97,7 +97,7 @@
                             </tr>
                             <tr>
                                 <td><center><span class="glyphicon glyphicon-triangle-left hand" ng-click="displacement('left');"></span></center></td>
-                                <td><center><span class="glyphicon glyphicon-refresh hand" ng-click="displacement('reset');"></span></center></td>
+                                <td><center><span title="Resetear desplazamiento" class="glyphicon glyphicon-refresh hand" ng-click="displacement('reset');"></span></center></td>
                                 <td><center><span class="glyphicon glyphicon-triangle-right hand" ng-click="displacement('right');"></span></center></td>
                             </tr>
                             <tr>
