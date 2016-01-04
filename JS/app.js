@@ -138,16 +138,16 @@ angular
         
         function displacement(way) {
             if(way === 'up') {
-                $scope.despY += 0.1;
+                $scope.despY = $scope.despY - 0.1;
             }
             else if(way === 'left') {
-                $scope.despX = $scope.despX - 0.1;
-            }
-            else if(way === 'right') {
                 $scope.despX += 0.1;
             }
+            else if(way === 'right') {
+                $scope.despX = $scope.despX - 0.1;
+            }
             else if(way === 'down') {
-                $scope.despY = $scope.despY - 0.1;
+                $scope.despY += 0.1;
             }
             else {
                 $scope.despX = 0.0;
@@ -161,7 +161,7 @@ angular
             $scope.zoom = -0.1;
             generateImage();
             removeMap(mapa);
-            $scope.mapas.splice(0, 0, mapa);
+            $scope.mapas.splice($scope.mapas.length, 0, mapa);
             resetIdToMap();
         }
     });

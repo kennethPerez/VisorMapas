@@ -5,6 +5,7 @@
         <title>Visor de mapas</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
+        <link rel="shortcun icon" href="./IMG/icono.ico">
     </head>
     <body ng-controller="visorController">
         <div>
