@@ -71,7 +71,7 @@ class graficos {
            $query = "select ((st_x(st_geometryN(geom,1))-o.xinicial)/o.factor) as x, ($ancho - ((st_y(st_geometryN(geom,1))-o.yinicial)/o.factor)) as y 
                         from 
                          (
-                          select gid, h.geom FROM escuelaspu h
+                          select gid, h.geom FROM escuelas_publicas h
                             where st_intersects((
                             select st_setsrid( Box2D( st_buffer( p.centroide, ((c.distancia-(c.distancia * $zoom ))/2)) ), 5367 ) geom from 
                               (select ST_GeomFromText(st_astext(st_point( st_x(st_centroid(geom))-((st_x(st_centroid(geom))* $despX )/2) , st_y(st_centroid(geom))-((st_x(st_centroid(geom))* $despY )/2) )),5367)  centroide
@@ -133,7 +133,7 @@ class graficos {
         if($capa == "Distritos")
         {
             $verde = imagecolorallocatealpha($imagen, 0, 178, 48, $trans);
-            $query = "SELECT gid, count(((d.x - c.xinicial)/c.factor)) as npuntos, string_agg((cast( ((d.x - c.xinicial)/c.factor)- $factorLargo as varchar)||','||cast( ($ancho - ((d.y - c.yinicial)/c.factor))- $factorAncho as varchar)),',') as puntos FROM 
+            $query = "SELECT gid, ((d.x - c.xinicial)/c.factor)- $factorLargo x, ($ancho - ((d.y - c.yinicial)/c.factor))- $factorAncho y FROM 
                         (
                         SELECT gid, st_x((ST_DumpPoints(geom)).geom) x, st_y((ST_DumpPoints(geom)).geom) y 
                          FROM 
@@ -159,14 +159,33 @@ class graficos {
                           ) c 
                         ) c
                       where ( ((d.x - c.xinicial)/c.factor) between $Xde and $Xa) and 
-                            ( ( $ancho -((d.y - c.yinicial)/c.factor)) between $Yde and $Ya)
-                      group by gid";
+                            ( ( $ancho -((d.y - c.yinicial)/c.factor)) between $Yde and $Ya)";
+            
             $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
-            while ($row = pg_fetch_row($result))
-            {    
-                $valores = explode(",", $row[2]);
-                imagefilledpolygon($imagen, $valores, $row[1], $verde);
+            
+            $gid='';
+            $pointPolygonArray = array();
+
+            while ($row =  pg_fetch_row($result))
+            {
+                if($gid=='')
+                {
+                    $gid = $row[0];
+                    array_push($pointPolygonArray,$row[1],$row[2]);                        
+                }
+                else if($gid == $row[0])
+                {
+                    array_push($pointPolygonArray,$row[1],$row[2]);
+                }
+                else 
+                {   
+                    imagefilledpolygon($imagen, $pointPolygonArray, count($pointPolygonArray)/2, $verde);
+                    $pointPolygonArray = array();
+                    $gid = $row[0];
+                    array_push($pointPolygonArray,$row[1],$row[2]);
+                }
             }
+            imagefilledpolygon($imagen, $pointPolygonArray, count($pointPolygonArray)/2, $verde);
         
         }        
         
