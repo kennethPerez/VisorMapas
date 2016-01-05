@@ -9,7 +9,7 @@
     </head>
     <body ng-controller="visorController">
         <div>
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div ng-repeat="mapa in mapas" style="position: absolute;">
                     <table ng-if="mapa.state">
                         <tr ng-repeat="image in mapa.image">
@@ -21,12 +21,12 @@
                 </div>
             </div>
             
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="col-md-12" style="overflow-y:auto; height:230px;">
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th colspan="7"><span class="glyphicon glyphicon-list"></span> Seleccione las capas a mostrar</th>
+                                <th colspan="6"><span class="glyphicon glyphicon-list"></span> Seleccione las capas a mostrar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -34,10 +34,10 @@
                                 <td><input class="hand" type="checkbox" ng-click="showHideMap(mapa.id)"></td>
                                 <td>{{mapa.text}}</td>
                                 <td><span title="Zoom a la capa" class="glyphicon glyphicon-screenshot hand" ng-click="zoomMap(mapa)"></span></td>
-                                <td><span title="Subir capa" class="glyphicon glyphicon-arrow-up hand" ng-click="sortMap('up',mapa.id,mapa)"></span></td>
-                                <td><span title="Bajar capa" class="glyphicon glyphicon-arrow-down hand" ng-click="sortMap('down',mapa.id,mapa)"></span></td>
+                                <td><span style="float:left;" title="Subir capa" class="glyphicon glyphicon-chevron-up hand" ng-click="sortMap('up',mapa.id,mapa)"></span>
+                                    <span style="float:left;" title="Bajar capa" class="glyphicon glyphicon-chevron-down hand" ng-click="sortMap('down',mapa.id,mapa)"></span></td>
                                 <td><input title="Transparencia" type="range" min="0" max="127" step="1" value="mapa.transparency" ng-model="mapa.transparency" ng-change="generateImage();"></td>
-                                <td><div style="width: 30px; height: 20px; background-color: rgb({{mapa.color}});"></div></td>
+                                <td><div style="width: 15px; height: 25px; background-color: rgb({{mapa.color}});"></div></td>
                             </tr>
                         </tbody>
                     </table>
