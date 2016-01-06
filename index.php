@@ -66,6 +66,7 @@
                                 <td>Filas y columnas</td>
                                 <td colspan="2">
                                     <select class="form-control hand" ng-model="rowsColumns" ng-change="generateImage()">
+                                        <option value="1">Completa</option>
                                         <option value="3">3x3</option>
                                         <option value="4">4x4</option>
                                         <option value="5">5x5</option>
